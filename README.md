@@ -35,7 +35,7 @@ Converts your GitHub pushes to LinkedIn posts, to maximize exposure.
 3. Add a new webhook.
    ![github-3](https://user-images.githubusercontent.com/37946988/196015025-58602a5c-734e-48b0-a5a6-338070bd3246.png)
 4. Set the "Payload URL" to your exposed root URL + `/api/publish`. "Add webhook" to submit.
-   ![github-4](https://user-images.githubusercontent.com/37946988/196015027-b1a253f5-35bd-4fe1-a667-0ff7487b34d0.png)
+   ![github-4](https://user-images.githubusercontent.com/37946988/196016322-94b6990f-1295-427e-9c50-f083fd8e97fc.png)
 
 ### 4. linkedpush setup.
 
