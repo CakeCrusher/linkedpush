@@ -2,6 +2,8 @@
 
 Converts your GitHub pushes to LinkedIn posts, to maximize exposure.
 
+![firstpost](https://user-images.githubusercontent.com/37946988/196016831-eed2e908-7184-4d89-97df-7a958c734868.JPG)
+
 ## How it works
 
 [Sequence diagram](https://www.figma.com/file/KCPxw3HuMQmCsTS3MwhgaZ/linkedpush?node-id=0%3A1)
