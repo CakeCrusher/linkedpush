@@ -34,7 +34,7 @@ router.get("/auth", async (req, res) => {
     });
     myLinkedInId = fetchMyId.data.id;
   }
-
+  console.log("Authenticated.");
   res.status(200).send("Authenticated. You can close this window now.");
 });
 
