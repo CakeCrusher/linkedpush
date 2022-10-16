@@ -40,9 +40,14 @@ router.get("/auth", async (req, res) => {
 });
 
 router.post("/publish", async (req, res) => {
+  if (!req.body.head_commit) {
+    res.status(400).send("No commit found.");
+    return;
+  }
   if (!req.body.head_commit.message.includes("@linkedpush")) {
     console.log("No linkedpush tag found. Skipping...");
-    return res.status(200).send("No '@linkedpush' tag found. Skipping...");
+    res.status(200).send("No '@linkedpush' tag found. Skipping...");
+    return;
   }
 
   const visibility =
@@ -63,7 +68,8 @@ router.post("/publish", async (req, res) => {
 
   if (!token) {
     console.log("No token found. Please authenticate first.");
-    return res.status(401).send("Unauthorized");
+    res.status(401).send("Unauthorized");
+    return;
   }
 
   let postingPost = null;
@@ -91,11 +97,13 @@ router.post("/publish", async (req, res) => {
     });
   } catch (error) {
     console.log("Failed to post. Error: ", error);
-    return res.status(401).send(error.message);
+    res.status(401).send(error.message);
+    return;
   }
 
   console.log("Successfully posted to LinkedIn.");
-  return res.status(200).send("success");
+  res.status(200).send("success");
+  return;
 });
 
 // export the route
