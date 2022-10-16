@@ -41,6 +41,7 @@ router.get("/auth", async (req, res) => {
 
 router.post("/publish", async (req, res) => {
   if (!req.body.head_commit.message.includes("@linkedpush")) {
+    console.log("No linkedpush tag found. Skipping...");
     return res.status(200).send("No '@linkedpush' tag found. Skipping...");
   }
 
