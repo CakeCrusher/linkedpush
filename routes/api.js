@@ -41,6 +41,7 @@ router.get("/auth", async (req, res) => {
 
 router.post("/publish", async (req, res) => {
   if (!req.body.head_commit) {
+    console.log("No commit found.");
     res.status(400).send("No commit found.");
     return;
   }
