@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.redirect("https://github.com/CakeCrusher/linked-publish");
+  res.redirect("https://github.com/CakeCrusher/linkedpush");
 });
 
 app.use("/api", apiRoute);

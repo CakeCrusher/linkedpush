@@ -39,14 +39,22 @@ router.get("/auth", async (req, res) => {
 });
 
 router.post("/publish", async (req, res) => {
+  if (!req.body.head_commit.message.includes("@linkedpush")) {
+    return res.status(200).send("No '@linkedpush' tag found. Skipping...");
+  }
+
   const visibility =
     PRODUCTION.toLocaleLowerCase() === "true" ? "PUBLIC" : "CONNECTIONS";
 
-  const promo = `\nGitHub repo: ${req.body.repository.url}\n\n⚙️ by https://github.com/CakeCrusher/linked-publish`;
+  const autoAcredit = `\nGitHub repo: ${req.body.repository.url}`;
+  const promo = `\n\n⚙️ by https://github.com/CakeCrusher/linkedpush`;
 
   // these symbols are not allowed and will cause the post to fail
   const invalidSymbols = ["(", ")", "@"];
-  const cleanMessage = req.body.head_commit.message
+
+  // remove the linkedpush tag
+  let cleanMessage = req.body.head_commit.message
+    .replace("@linkedpush", "")
     .split("")
     .filter((char) => !invalidSymbols.includes(char))
     .join("");
