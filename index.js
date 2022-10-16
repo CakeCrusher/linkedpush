@@ -16,5 +16,7 @@ app.get("/", (req, res) => {
 app.use("/api", apiRoute);
 
 app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
+  console.log(
+    `Linkedpush listening at http://localhost:${PORT}\nPlease authenticate by navigating to: http://localhost:${PORT}/api/auth-url`
+  );
 });
