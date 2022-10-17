@@ -15,11 +15,12 @@ https://user-images.githubusercontent.com/37946988/196046904-7f72027c-ac78-48a9-
 ![sequence-diagram](https://user-images.githubusercontent.com/37946988/196039623-5bc97e03-4ad2-4800-8354-ad84c42a4c0b.JPG)
 
 ## Setup
-
+### 0. Clone this repository.
 ### 1. `.env` setup.
+The application `PORT` is set to default `3000`. You can change it if you want.
 
 1. Rename the `.env-template` file to `.env`.
-2. Expose (deploy) this repository to the internet using through whatever means you prefer. I recommend [ngrok](https://ngrok.com/). This link will be your `REDIRECT_URL`, you will need it for the following steps as well.
+2. Expose (deploy) this repository to the internet using through whatever means you prefer. I recommend [ngrok](https://ngrok.com/), you must initiate it to your `PORT`. This link will be your `REDIRECT_URL`, you will need it for the following steps as well.
 
 ### 2. Create a LinkedIn App.
 
@@ -45,8 +46,10 @@ https://user-images.githubusercontent.com/37946988/196046904-7f72027c-ac78-48a9-
 
 ### 4. linkedpush setup.
 
-1. Navigate to your exposed root URL + `/api/auth-url`.
-2. Sign in to LinkedIn and authorize the app.
+1. Run `yarn install` or `npm install` to install the dependencies.
+2. Run `yarn dev` or `npm run dev` to start the server.
+3. Navigate to your exposed root URL + `/api/auth-url`.
+4. Sign in to LinkedIn and authorize the app.
 
 ### 5. You're set 🥳!
 

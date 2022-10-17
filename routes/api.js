@@ -35,6 +35,13 @@ router.get("/auth", async (req, res) => {
     myLinkedInId = fetchMyId.data.id;
   }
 
+  if (!token) {
+    res
+      .status(401)
+      .send("Unauthorized. Please visit /api/auth-url to authorize.");
+    return;
+  }
+
   console.log("Authenticated.");
   res.status(200).send("Authenticated. You can close this window now.");
 });
