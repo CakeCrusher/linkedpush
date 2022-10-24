@@ -27,7 +27,7 @@ router.get("/login", async (req, res) => {
   const rootUrl = req.protocol + "://" + req.get("host");
 
   res.status(200).json({
-    websocket_url: `${rootUrl}/publish/${user.id}`,
+    websocket_url: user.linkedin_token ? `${rootUrl}/publish/${user.id}` : null,
     DELETE_MY_DATA: `${rootUrl}/delete?username=${user.username}&password=${user.password}`,
   });
 });
