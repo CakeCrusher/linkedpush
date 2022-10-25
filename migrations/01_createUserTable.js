@@ -8,17 +8,18 @@ module.exports = {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      username: {
+      email: {
         type: DataTypes.STRING,
         unique: true,
-        allowNull: false,
+        allowNull: true,
       },
-      password: {
+      phone_number: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       linkedin_token: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(510),
+        maxLength: 510,
         allowNull: true,
       },
     });

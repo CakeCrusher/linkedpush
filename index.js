@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 const apiRoute = require("./routes/api");
 const rootRoute = require("./routes/root");
+const userRoute = require("./routes/user");
 const { connectToDatabase } = require("./utils/db");
 const cors = require("cors");
 
@@ -14,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/", rootRoute);
-
+app.use("/user", userRoute);
 app.use("/api", apiRoute);
 
 const start = async () => {

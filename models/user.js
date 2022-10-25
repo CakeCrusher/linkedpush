@@ -11,16 +11,16 @@ User.init(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    username: {
+    email: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-    password: {
+    phoneNumber: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     linkedinToken: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(510),
       allowNull: true,
     },
   },

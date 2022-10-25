@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const axios = require("axios");
+const User = require("../models/User");
+const { rootUrl } = require("../utils/constants");
 
 const { APP_ID, APP_SECRET, REDIRECT_URI, PRODUCTION } = process.env;
 let token = null;
@@ -15,6 +17,7 @@ router.get("/auth-url", (req, res) => {
 router.get("/auth", async (req, res) => {
   const { code } = req.query;
 
+  // code will be passed by linkedin oauth
   if (code) {
     const fetchToken = await axios({
       method: "post",
@@ -42,8 +45,45 @@ router.get("/auth", async (req, res) => {
     return;
   }
 
-  console.log("Authenticated.");
-  res.status(200).send("Authenticated. You can close this window now.");
+  // fetch users primary contact info
+  const fetchUserInfo = await axios({
+    method: "get",
+    url: `https://api.linkedin.com/v2/clientAwareMemberHandles?q=members&projection=(elements*(primary,type,handle~))`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("fetchUserInfo", fetchUserInfo.data);
+  // check if user with fetchUserInfo.elements[0]["handle~"].emailAddress exists in db
+
+  const typeField =
+    fetchUserInfo.data.elements[0].type === "EMAIL" ? "email" : "phoneNumber";
+  const primaryContactValue =
+    typeField === "email"
+      ? fetchUserInfo.data.elements[0]["handle~"].emailAddress
+      : fetchUserInfo.data.elements[0]["handle~"].phoneNumber.number;
+  console.log("typeField", typeField);
+  console.log("primaryContactValue", primaryContactValue);
+
+  let user = await User.findOne({
+    where: {
+      [typeField]: primaryContactValue,
+    },
+  });
+
+  if (!user) {
+    // if user does not exist, create user
+    user = await User.create({
+      [typeField]: primaryContactValue,
+      linkedinToken: token,
+    });
+  }
+
+  console.log("token", token);
+
+  // route to user's profile page
+  res.redirect(`${rootUrl(req)}/user/${user.id}}`);
+  // res.status(200).send("Authenticated. You can close this window now.");
 });
 
 router.post("/publish", async (req, res) => {
