@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const { Umzug, SequelizeStorage } = require("umzug");
+require("dotenv").config();
 
 // // configuration to establish sequelize connnection
 // const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
