@@ -1,4 +1,4 @@
-const rootUrl = (req) => req.protocol + "://" + req.get("host");
+const rootUrl = (req) => "https://" + req.get("host");
 
 module.exports = {
   rootUrl,

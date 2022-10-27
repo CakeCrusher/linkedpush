@@ -40,7 +40,7 @@ router.post("/:id", verifyUser, async (req, res) => {
       : "CONNECTIONS";
 
   const autoAcredit = `\nGitHub repo: ${req.body.repository.url}`;
-  const promo = `\n\n⚙️ by https://github.com/CakeCrusher/linkedpush`;
+  const promo = `\n\n⚙️ by https://linkedpush.herokuapp.com/`;
 
   // these symbols are not allowed and will cause the post to fail
   const invalidSymbols = ["(", ")", "@"];
