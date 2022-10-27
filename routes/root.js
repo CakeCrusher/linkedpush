@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const axios = require("axios");
-const User = require("../models/User");
+const User = require("../models/user");
 const { rootUrl } = require("../utils/constants");
 
 router.get("/", (req, res) => {

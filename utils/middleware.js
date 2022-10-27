@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/user");
 
 const verifyUser = async (req, res, next) => {
   const user = await User.findByPk(req.params.id);
