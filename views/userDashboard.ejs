@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <meta name="robots" content="noindex" />
+    <title>dashboard</title>
+    <meta
+      name="description"
+      content="My super secret linkedpush dashboard that should never be shared."
+    />
+  </head>
+  <body>
+    <h1>Dashboard</h1>
+    <h3 style="color: red">DO NOT SHARE ANY LINKS ON THIS PAGE 😬!</h3>
+    <hr />
+    <h3>Add your webhook: <a href="<%= webhookUrl %>"><%= webhookUrl %></a></h3>
+    <p>
+      First set up your repo 👇. From there on, use linkedpush by adding
+      "@linkedpush" to your commit message then push to GitHub and voila ✨,
+      your commit message is a LinkedIn post (minus the "@linkedpush" part of
+      course).
+    </p>
+    <h3>Set up your repo</h3>
+    <ol>
+      <li><p>Navigate to your repository's settings.</p></li>
+      <img
+        alt="github-1"
+        src="https://user-images.githubusercontent.com/37946988/196015015-a153509a-c871-4b7f-971c-da3c32736fe0.png"
+      />
+      <li><p>Navigate to "Webhooks".</p></li>
+      <img
+        alt="github-2"
+        src="https://user-images.githubusercontent.com/37946988/196015021-ed12b6ed-92dd-4e34-940a-0fc561a6fb35.png"
+      />
+      <li><p>Add a new webhook.</p></li>
+      <img
+        alt="github-3"
+        src="https://user-images.githubusercontent.com/37946988/196015025-58602a5c-734e-48b0-a5a6-338070bd3246.png"
+      />
+      <li>
+        <p>
+          Set the "Payload URL" to your webhook url. Change "Content Type" to
+          "application/json". "Add webhook" to submit.
+        </p>
+      </li>
+      <img
+        alt="github-4"
+        src="https://user-images.githubusercontent.com/37946988/198734820-f9fc6f8d-2987-412c-9706-c308854d6158.png"
+      />
+    </ol>
+    <hr />
+    <h3 style="color: darkorange">
+      Delete my data: <a href="<%= deleteDataUrl %>"><%= deleteDataUrl %></a>
+    </h3>
+  </body>
+</html>

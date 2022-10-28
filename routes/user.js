@@ -3,13 +3,25 @@ const axios = require("axios");
 const User = require("../models/user");
 const { rootUrl } = require("../utils/constants");
 const { verifyUser } = require("../utils/middleware");
+const ejs = require("ejs");
 
 router.get("/:id", verifyUser, (req, res) => {
   const deleteDataUrl = `${rootUrl(req)}/user/delete/${req.params.id}`;
   const webhookUrl = `${rootUrl(req)}/publish/${req.params.id}`;
-  res
-    .status(200)
-    .json({ delete_data_url: deleteDataUrl, webhook_url: webhookUrl });
+  ejs.renderFile(
+    __dirname + "/../views/userDashboard.ejs",
+    { deleteDataUrl, webhookUrl },
+    (err, str) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+        return;
+      } else {
+        res.status(201).send(str);
+        return;
+      }
+    }
+  );
 });
 
 router.get("/delete/:id", verifyUser, async (req, res) => {
