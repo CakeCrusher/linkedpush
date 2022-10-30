@@ -1,4 +1,4 @@
-# linkedpush ([API](https://linkedpush.herokuapp.com/))
+# linkedpush ([site](https://linkedpush.herokuapp.com/))
 
 Converts your GitHub pushes to LinkedIn posts, to maximize exposure.
 
