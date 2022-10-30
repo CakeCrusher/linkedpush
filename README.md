@@ -1,10 +1,8 @@
-# linkedpush
+# linkedpush ([site](https://linkedpush.herokuapp.com/))
 
 Converts your GitHub pushes to LinkedIn posts, to maximize exposure.
 
-
 https://user-images.githubusercontent.com/37946988/196046904-7f72027c-ac78-48a9-bcb5-c25860c8e8e5.mp4
-
 
 ![firstpost](https://user-images.githubusercontent.com/37946988/196016831-eed2e908-7184-4d89-97df-7a958c734868.JPG)
 
@@ -15,8 +13,11 @@ https://user-images.githubusercontent.com/37946988/196046904-7f72027c-ac78-48a9-
 ![sequence-diagram](https://user-images.githubusercontent.com/37946988/196039623-5bc97e03-4ad2-4800-8354-ad84c42a4c0b.JPG)
 
 ## Setup
+
 ### 0. Clone this repository.
+
 ### 1. `.env` setup.
+
 The application `PORT` is set to default `3000`. You can change it if you want.
 
 1. Rename the `.env-template` file to `.env`.
