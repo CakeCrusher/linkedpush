@@ -2,7 +2,7 @@
 
 Converts your GitHub pushes to LinkedIn posts, to maximize exposure.
 
-https://user-images.githubusercontent.com/37946988/196046904-7f72027c-ac78-48a9-bcb5-c25860c8e8e5.mp4
+https://user-images.githubusercontent.com/37946988/199383076-d43f5c3d-af90-4b84-83ac-97a24d57ceb8.mp4
 
 ![firstpost](https://user-images.githubusercontent.com/37946988/196016831-eed2e908-7184-4d89-97df-7a958c734868.JPG)
 
