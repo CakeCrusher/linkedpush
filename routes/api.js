@@ -5,7 +5,6 @@ const { rootUrl } = require("../utils/constants");
 const { verifyUser } = require("../utils/middleware");
 
 const { APP_ID, APP_SECRET, REDIRECT_URI, PRODUCTION } = process.env;
-let token = null;
 
 // redirect to LinkedIn oath
 router.get("/auth-url", (req, res) => {
@@ -16,6 +15,7 @@ router.get("/auth-url", (req, res) => {
 // recieves the code from LinkedIn and requests both the token and the user's id
 router.get("/auth", async (req, res) => {
   const { code } = req.query;
+  let token = null;
 
   let myLinkedInId = null;
   // code will be passed by linkedin oauth
