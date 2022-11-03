@@ -6,7 +6,6 @@ const { verifyUser } = require("../utils/middleware");
 const oauthRoute = require("./oauth");
 
 const { APP_ID } = process.env;
-let token = null;
 
 // redirect to LinkedIn oath
 router.get("/auth-url", (req, res) => {

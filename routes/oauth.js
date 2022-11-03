@@ -2,12 +2,12 @@ const router = require("express").Router();
 const axios = require("axios");
 const User = require("../models/user");
 const { rootUrl } = require("../utils/constants");
-const { APP_ID, APP_SECRET, GH_ID } = process.env;
+const { APP_ID, APP_SECRET, GH_ID, GH_SECRET } = process.env;
 
 router.get("/linkedin", async (req, res) => {
   const { code } = req.query;
 
-  let myLinkedInId = null;
+  let token = null;
   // code will be passed by linkedin oauth
   if (code) {
     const fetchToken = await axios({
@@ -69,7 +69,7 @@ router.get("/linkedin", async (req, res) => {
     res.redirect(
       `https://github.com/login/oauth/authorize?client_id=${GH_ID}&redirect_uri=${
         rootUrl(req) + "/api/oauth/github"
-      }&scope=admin:repo_hook`
+      }&scope=admin:repo_hook user:email`
     );
   } else {
     // route to user's profile page
@@ -77,6 +77,58 @@ router.get("/linkedin", async (req, res) => {
   }
 });
 
-router.get("/github", async (req, res) => {});
+router.get("/github", async (req, res) => {
+  const { code } = req.query;
+  let token = null;
+
+  // code will be passed by github oauth
+  if (code) {
+    const fetchToken = await axios({
+      method: "post",
+      url: `https://github.com/login/oauth/access_token?code=${code}&client_id=${GH_ID}&client_secret=${GH_SECRET}&redirect_uri=${
+        rootUrl(req) + "/api/oauth/github"
+      }`,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    token = fetchToken.data.access_token;
+  }
+
+  if (!token) {
+    res
+      .status(401)
+      .send("Unauthorized. Please visit /api/auth-url to authorize.");
+    return;
+  }
+
+  // retrieve user's email
+  const fetchUserInfo = await axios({
+    method: "get",
+    url: `https://api.github.com/user/emails`,
+    headers: {
+      Authorization: `token ${token}`,
+    },
+  });
+
+  const email = fetchUserInfo.data[0].email;
+
+  let user = await User.findOne({
+    where: {
+      email,
+    },
+  });
+  if (!user) {
+    res.status(401).send("GitHub email does not match with LinkedIn's email.");
+    return;
+  } else {
+    // update token
+    user.githubToken = token;
+    await user.save();
+  }
+
+  // route to user's profile page
+  res.redirect(`${rootUrl(req)}/user/${user.id}`);
+});
 
 module.exports = router;
