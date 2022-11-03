@@ -23,6 +23,10 @@ User.init(
       type: DataTypes.STRING(510),
       allowNull: true,
     },
+    githubToken: {
+      type: DataTypes.STRING(510),
+      allowNull: true,
+    },
   },
   {
     sequelize,
