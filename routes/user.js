@@ -34,7 +34,7 @@ router.get("/:id", verifyUser, async (req, res) => {
     __dirname + "/../views/userDashboard.ejs",
     {
       deleteDataUrl,
-      webhookUrl: "https://example.com",
+      webhookUrl,
       githubToken: res.locals.user.githubToken,
       owner_name: fetchUserInfo.data.login,
       repos: mappedRepos,

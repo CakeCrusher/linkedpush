@@ -16,7 +16,6 @@ router.get("/auth-url", (req, res) => {
 });
 
 router.use("/oauth", oauthRoute);
-// recieves the code from LinkedIn and requests both the token and the user's id
 
 // export the route
 module.exports = router;
