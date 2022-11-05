@@ -18,59 +18,40 @@
   </head>
   <body>
     <h1>Dashboard</h1>
-    <h3 style="color: red">DO NOT SHARE ANY LINKS ON THIS PAGE 😬!</h3>
-    <div style="flex-direction: row">
-      <button onclick="createWebhookForAll()">Add to all</button>
-      <button onclick="deleteWebhookForAll()">Delete to all</button>
-    </div>
-    <ul>
-      <% repos.forEach((repo) => { %>
-      <li style="flex-direction: row">
-        <a href="<%= repo.html_url %>">
-          <%= owner_name %>/<%= repo.repo_name %>
-        </a>
-        <button onclick="createWebhook('<%= repo.repo_name %>')">add</button>
-        <button onclick="deleteWebhook('<%= repo.repo_name %>')">remove</button>
-      </li>
-      <% }) %>
-    </ul>
-
+    <h3 style="color: red">
+      DO NOT SHARE ANY linkedpush LINKS ON THIS PAGE 😬 !
+    </h3>
     <hr />
     <h3>Add your webhook: <a href="<%= webhookUrl %>"><%= webhookUrl %></a></h3>
     <p>
-      First set up your repo 👇. From there on, use linkedpush by adding
-      "<strong>@linkedpush</strong>" to your commit message then push to GitHub
-      and voila ✨, your commit message is a LinkedIn post (minus the
-      "<strong>@linkedpush</strong>" part of course).
+      First add webhook to your repo 👇. From there on, use linkedpush by adding
+      "<strong>@linkedpush</strong>" anywhere on your commit message, then push
+      to GitHub, and voila ✨, your commit message becomes a LinkedIn post
+      (minus the "<strong>@linkedpush</strong>" part of course).
     </p>
-    <h3>Set up your repo</h3>
-    <ol>
-      <li><p>Navigate to your repository's settings.</p></li>
-      <img
-        alt="github-1"
-        src="https://user-images.githubusercontent.com/37946988/196015015-a153509a-c871-4b7f-971c-da3c32736fe0.png"
-      />
-      <li><p>Navigate to "Webhooks".</p></li>
-      <img
-        alt="github-2"
-        src="https://user-images.githubusercontent.com/37946988/196015021-ed12b6ed-92dd-4e34-940a-0fc561a6fb35.png"
-      />
-      <li><p>Add a new webhook.</p></li>
-      <img
-        alt="github-3"
-        src="https://user-images.githubusercontent.com/37946988/196015025-58602a5c-734e-48b0-a5a6-338070bd3246.png"
-      />
-      <li>
-        <p>
-          Set the "Payload URL" to your webhook url. Change "Content Type" to
-          "application/json". "Add webhook" to submit.
-        </p>
-      </li>
-      <img
-        alt="github-4"
-        src="https://user-images.githubusercontent.com/37946988/198734820-f9fc6f8d-2987-412c-9706-c308854d6158.png"
-      />
-    </ol>
+    <div style="height: 50vh; overflow: scroll">
+      <div style="flex-direction: row; position: sticky; top: 0px">
+        <button onclick="createWebhookForAll()">
+          Add to all <%= repos.length %> repos
+        </button>
+        <button onclick="deleteWebhookForAll()">
+          Delete from all <%= repos.length %> repos
+        </button>
+      </div>
+      <ul>
+        <% repos.forEach((repo) => { %>
+        <li style="flex-direction: row">
+          <a href="<%= repo.html_url %>">
+            <%= owner_name %>/<%= repo.repo_name %>
+          </a>
+          <button onclick="createWebhook('<%= repo.repo_name %>')">add</button>
+          <button onclick="deleteWebhook('<%= repo.repo_name %>')">
+            remove
+          </button>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
     <hr />
     <h3 style="color: darkorange">
       Delete my data: <a href="<%= deleteDataUrl %>"><%= deleteDataUrl %></a>
