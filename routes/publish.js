@@ -28,7 +28,9 @@ router.post("/:id", verifyUser, async (req, res) => {
     return;
   }
 
-  if (!req.body.head_commit.message.includes("@linkedpush")) {
+  if (
+    !req.body.commits.find((commit) => commit.message.includes("@linkedpush"))
+  ) {
     console.log("No linkedpush tag found. Skipping...");
     res.status(200).send("No '@linkedpush' tag found. Skipping...");
     return;
@@ -39,18 +41,30 @@ router.post("/:id", verifyUser, async (req, res) => {
       ? "PUBLIC"
       : "CONNECTIONS";
 
-  const autoAcredit = `\nGitHub repo: ${req.body.repository.url}`;
-  const promo = `\n\n⚙️ by https://linkedpush.herokuapp.com/`;
+  const autoAcredit = `GitHub repo: ${req.body.repository.url}`;
+  const promo = `⚙️ by https://linkedpush.herokuapp.com/`;
 
   // these symbols are not allowed and will cause the post to fail
   const invalidSymbols = ["(", ")", "@"];
 
   // remove the linkedpush tag
-  let cleanMessage = req.body.head_commit.message
-    .replace("@linkedpush", "")
-    .split("")
-    .filter((char) => !invalidSymbols.includes(char))
-    .join("");
+  const cleanMessage = (message) =>
+    message
+      .replace("@linkedpush", "")
+      .split("")
+      .filter((char) => !invalidSymbols.includes(char))
+      .join("");
+
+  const messageList = [];
+  // iterate through req.body.commits in reversse
+  for (let i = req.body.commits.length - 1; i >= 0; i--) {
+    if (req.body.commits[i].message.includes("@linkedpush")) {
+      messageList.push(cleanMessage(req.body.commits[i].message));
+    }
+  }
+  const finalMessage = `${messageList.join(
+    "\n\n"
+  )}\n\n${autoAcredit}\n${promo}`;
 
   let postingPost = null;
   try {
@@ -65,7 +79,7 @@ router.post("/:id", verifyUser, async (req, res) => {
       },
       data: {
         author: `urn:li:person:${myLinkedInId}`,
-        commentary: cleanMessage + promo,
+        commentary: finalMessage,
         visibility,
         distribution: {
           feedDistribution: "MAIN_FEED",
