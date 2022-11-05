@@ -12,7 +12,7 @@ https://user-images.githubusercontent.com/37946988/199383076-d43f5c3d-af90-4b84-
 
 ### deployed
 
-![sequence-diagram deployed](https://user-images.githubusercontent.com/37946988/198400941-deed3afc-2c33-44cc-92bb-eea705c6f9a7.png)
+![sequence-diagram deployed](https://user-images.githubusercontent.com/37946988/200139291-9c947a24-f468-456d-94f8-e738790d8d7c.png)
 
 ### master
 
