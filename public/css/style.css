@@ -1,0 +1,11 @@
+body {
+  font-family: "Roboto";
+  width: 95%;
+}
+img {
+  width: 90%;
+}
+p,
+li {
+  font-size: 1.2rem;
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <meta name="robots" content="noindex" />
+    <title>dashboard</title>
+    <meta
+      name="description"
+      content="My super secret linkedpush dashboard that should never be shared."
+    />
+  </head>
+  <body>
+    <h1>Dashboard</h1>
+    <h3 style="color: red">
+      DO NOT SHARE ANY linkedpush LINKS ON THIS PAGE 😬 !
+    </h3>
+    <hr />
+    <h3>Add your webhook: <a href="<%= webhookUrl %>"><%= webhookUrl %></a></h3>
+    <p>
+      First add webhook to your repo 👇. From there on, use linkedpush by adding
+      "<strong>@linkedpush</strong>" anywhere on your commit message, then push
+      to GitHub, and voila ✨, your commit message becomes a LinkedIn post
+      (minus the "<strong>@linkedpush</strong>" part of course).
+    </p>
+    <div style="height: 50vh; overflow: scroll">
+      <div style="flex-direction: row; position: sticky; top: 0px">
+        <button onclick="createWebhookForAll()">
+          Add to all <%= repos.length %> repos
+        </button>
+        <button onclick="deleteWebhookForAll()">
+          Delete from all <%= repos.length %> repos
+        </button>
+      </div>
+      <ul>
+        <% repos.forEach((repo) => { %>
+        <li style="flex-direction: row">
+          <a href="<%= repo.html_url %>">
+            <%= owner_name %>/<%= repo.repo_name %>
+          </a>
+          <button onclick="createWebhook('<%= repo.repo_name %>')">add</button>
+          <button onclick="deleteWebhook('<%= repo.repo_name %>')">
+            remove
+          </button>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+    <hr />
+    <h3 style="color: darkorange">
+      Delete my data: <a href="<%= deleteDataUrl %>"><%= deleteDataUrl %></a>
+    </h3>
+  </body>
+  <!-- add a script that adds an onclick event to button of id="test" -->
+  <script>
+    // create a fetch request to the /test route
+    const test = document.getElementById("test");
+    const createWebhookForAll = () => {
+      const repos = <%- JSON.stringify(repos) %>
+      repos.forEach((repo) => {
+        createWebhook(repo.repo_name, false)
+      })
+      // this alert is assuming all worked (so its kinda a lie)
+      alert(`Created ${repos.length} webhooks!`)
+    };
+    const deleteWebhookForAll = () => {
+      const repos = <%- JSON.stringify(repos) %>
+      repos.forEach((repo) => {
+        deleteWebhook(repo.repo_name, false)
+      })
+      // this alert is assuming all worked (so its kinda a lie)
+      alert(`Deleted ${repos.length} webhooks!`)
+    };
+    const createWebhook = async (repo, raiseAlert = true) => {
+      const response = await fetch(
+        `https://api.github.com/repos/<%= owner_name %>/${repo}/hooks`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer <%= githubToken %>",
+          },
+          body: JSON.stringify({
+            owner: "CakeCrusher",
+            repo: "test-repo",
+            name: "web",
+            active: true,
+            events: ["push"],
+            config: {
+              url: "<%= webhookUrl %>",
+              content_type: "json",
+              insecure_ssl: "0",
+            },
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.id) {
+        if (raiseAlert) alert("Successfully created webhook!");
+      } else {
+        console.log(data);
+        if (raiseAlert) alert("Failed to create webhook.");
+      }
+    };
+    const deleteWebhook = async (repo, raiseAlert = true) => {
+      const allHooks = await fetch(
+        `https://api.github.com/repos/<%= owner_name %>/${repo}/hooks`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer <%= githubToken %>",
+          },
+        }
+      );
+      const allHooksData = await allHooks.json();
+      // find hook with url of webhookUrl in allHooks[i].config.url
+      console.log;
+      const hook = allHooksData.find(
+        (hook) => hook.config.url === "<%= webhookUrl %>"
+      );
+      const deleteReq = await fetch(
+        `https://api.github.com/repos/<%= owner_name %>/${repo}/hooks/${hook.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer <%= githubToken %>",
+          },
+        }
+      );
+      if (deleteReq.ok) {
+        if (raiseAlert) alert("Successfully deleted webhook!");
+      } else {
+        console.log(deleteReq);
+        if (raiseAlert) alert("Failed to delete webhook.");
+      }
+    };
+  </script>
+</html>

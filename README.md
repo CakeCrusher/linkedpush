@@ -2,15 +2,21 @@
 
 Converts your GitHub pushes to LinkedIn posts, to maximize exposure.
 
-https://user-images.githubusercontent.com/37946988/199383076-d43f5c3d-af90-4b84-83ac-97a24d57ceb8.mp4
+https://user-images.githubusercontent.com/37946988/200144242-604c271f-534e-4859-ba87-286d290bdf54.mp4
 
-![firstpost](https://user-images.githubusercontent.com/37946988/196016831-eed2e908-7184-4d89-97df-7a958c734868.JPG)
+![firstpost](https://user-images.githubusercontent.com/37946988/198857559-c0541459-9729-4da4-ba6c-a0ec81cf7878.png)
 
 ## How it works
 
-[Sequence diagram](https://www.figma.com/file/KCPxw3HuMQmCsTS3MwhgaZ/linkedpush?node-id=0%3A1)
+[Sequence diagrams](https://www.figma.com/file/KCPxw3HuMQmCsTS3MwhgaZ/linkedpush?node-id=0%3A1)
 
-![sequence-diagram](https://user-images.githubusercontent.com/37946988/196039623-5bc97e03-4ad2-4800-8354-ad84c42a4c0b.JPG)
+### deployed
+
+![sequence-diagram deployed](https://user-images.githubusercontent.com/37946988/200139291-9c947a24-f468-456d-94f8-e738790d8d7c.png)
+
+### master
+
+![sequence-diagram master](https://user-images.githubusercontent.com/37946988/196039623-5bc97e03-4ad2-4800-8354-ad84c42a4c0b.JPG)
 
 ## Setup
 
