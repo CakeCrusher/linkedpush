@@ -42,8 +42,10 @@ router.post("/:id", verifyUser, async (req, res) => {
       ? "PUBLIC"
       : "CONNECTIONS";
 
-  // TODO: change auto acredit to commit link https://github.com/CakeCrusher/tech-int-prep/commit/f49689430ad8e39796a80228dca275a341a77d89
-  const autoAcredit = `GitHub repo: ${req.body.repository.url}`;
+  // const autoAcredit = `GitHub repo: ${req.body.repository.url}`;
+  const autoAcredit = `GitHub commit: ${
+    req.body.repository.url + "/commit/" + req.body.head_commit.id
+  }`;
   const promo = `⚙️ by https://linkedpush.herokuapp.com/`;
 
   // these symbols are not allowed and will cause the post to fail
