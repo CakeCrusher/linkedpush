@@ -103,7 +103,6 @@ const createPost = async (
     throw Error(error);
   }
 };
-// https://2210-68-234-232-23.ngrok.io/api/og?title=Day%201&description=I%20had%20to%20use%20a%20Tries%20tree%20to%20figure%20out%20which%20search%20would%20corrolate%20most&full_name=CakeCrusher%2Ftech-int-prep
 
 const downloadImage = async (url) => {
   // generate id
@@ -167,9 +166,6 @@ const uploadAsset = async (linkedinToken, myLinkedInId, message, fullName) => {
 
   return assetId;
 };
-// console.log("assetId: ", assetId);
-// await createPost(myLinkedInId, user.linkedinToken, "full flow", assetId);
-// console.log("post created");
 
 module.exports = {
   registerUpload,
