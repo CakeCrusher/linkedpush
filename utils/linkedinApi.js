@@ -103,35 +103,70 @@ const createPost = async (
     throw Error(error);
   }
 };
+// https://2210-68-234-232-23.ngrok.io/api/og?title=Day%201&description=I%20had%20to%20use%20a%20Tries%20tree%20to%20figure%20out%20which%20search%20would%20corrolate%20most&full_name=CakeCrusher%2Ftech-int-prep
 
-// // FULL FLOW
-// const fetchMyId = await axios({
-//   method: "get",
-//   url: `https://api.linkedin.com/v2/me?projection=(id)`,
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-// });
-// const myLinkedInId = fetchMyId.data.id;
+const downloadImage = async (url) => {
+  // generate id
+  const id = Math.random().toString(36).substring(2, 15);
+  const imagePath = `images/${id}.png`;
+  const res = await axios({
+    url,
+    responseType: "stream",
+  });
+  // await the download of the image
+  await new Promise((resolve, reject) => {
+    res.data
+      .pipe(fs.createWriteStream(imagePath))
+      .on("finish", () => resolve())
+      .on("error", (e) => reject(e));
+  });
+  return imagePath;
+};
 
-// console.log("LI token: ", user.linkedinToken);
-// const registerUploadRes = await registerUpload(
-//   myLinkedInId,
-//   user.linkedinToken
-// );
-// const uploadUrl =
-//   registerUploadRes.value.uploadMechanism[
-//     "com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"
-//   ].uploadUrl;
-// const assetId = registerUploadRes.value.asset.replace(
-//   "digitalmediaAsset",
-//   "image"
-// );
-// await imageUpload(
-//   uploadUrl,
-//   "C:/Projects/linkedpush/linkedpush/images/monkey.jpg",
-//   user.linkedinToken
-// );
+// FULL FLOW
+
+const uploadAsset = async (linkedinToken, myLinkedInId, message, fullName) => {
+  console.log("LI token: ", linkedinToken);
+  const registerUploadRes = await registerUpload(myLinkedInId, linkedinToken);
+  const uploadUrl =
+    registerUploadRes.value.uploadMechanism[
+      "com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"
+    ].uploadUrl;
+  const assetId = registerUploadRes.value.asset.replace(
+    "digitalmediaAsset",
+    "image"
+  );
+  let title, description;
+  if (message.includes(":")) {
+    [title, description] = message.split(":");
+    title = title.trim();
+    description = description.trim();
+  } else {
+    title = message.slice(0, 20);
+    description = "";
+  }
+
+  const imagePath = await downloadImage(
+    `https://image-gen-linkedpush.vercel.app/api/og?title=${encodeURIComponent(
+      title
+    )}&description=${encodeURIComponent(
+      description
+    )}&full_name=${encodeURIComponent(fullName)}`
+  );
+
+  await imageUpload(uploadUrl, imagePath, linkedinToken);
+
+  // delete file at imagePath
+  fs.unlink(imagePath, (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    //file removed
+  });
+
+  return assetId;
+};
 // console.log("assetId: ", assetId);
 // await createPost(myLinkedInId, user.linkedinToken, "full flow", assetId);
 // console.log("post created");
@@ -141,4 +176,6 @@ module.exports = {
   imageUpload,
   checkMediaStatus,
   createPost,
+  downloadImage,
+  uploadAsset,
 };
