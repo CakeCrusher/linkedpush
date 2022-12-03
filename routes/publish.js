@@ -53,7 +53,6 @@ router.post("/:id", verifyUser, async (req, res) => {
 
   // remove the linkedpush tag
   const cleanMessage = (message, aoc = false) => {
-    let message = message;
     if (!aoc) {
       message = message.replace("@:", "");
     }
@@ -63,6 +62,7 @@ router.post("/:id", verifyUser, async (req, res) => {
       .split("")
       .filter((char) => !invalidSymbols.includes(char))
       .join("");
+    return message;
   };
 
   const messageList = [];
