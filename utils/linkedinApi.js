@@ -136,8 +136,8 @@ const uploadAsset = async (linkedinToken, myLinkedInId, message, fullName) => {
     "image"
   );
   let title, description;
-  if (message.includes(":")) {
-    [title, description] = message.split(":");
+  if (message.includes("@:")) {
+    [title, description] = message.split("@:");
     title = title.trim();
     description = description.trim();
   } else {

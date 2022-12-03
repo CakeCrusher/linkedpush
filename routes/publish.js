@@ -56,6 +56,7 @@ router.post("/:id", verifyUser, async (req, res) => {
     message
       .replace("@linkedpush", "")
       .replace("@aoc", "")
+      .replace("@:", "")
       .split("")
       .filter((char) => !invalidSymbols.includes(char))
       .join("");
