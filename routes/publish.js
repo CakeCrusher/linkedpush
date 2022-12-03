@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const axios = require("axios");
 const { verifyUser } = require("../utils/middleware");
+const { uploadAsset, createPost } = require("../utils/linkedinApi");
 
 router.post("/:id", verifyUser, async (req, res) => {
   const user = res.locals.user;
@@ -41,6 +42,7 @@ router.post("/:id", verifyUser, async (req, res) => {
       ? "PUBLIC"
       : "CONNECTIONS";
 
+  // TODO: change auto acredit to commit link https://github.com/CakeCrusher/tech-int-prep/commit/f49689430ad8e39796a80228dca275a341a77d89
   const autoAcredit = `GitHub repo: ${req.body.repository.url}`;
   const promo = `⚙️ by https://linkedpush.herokuapp.com/`;
 
@@ -51,44 +53,44 @@ router.post("/:id", verifyUser, async (req, res) => {
   const cleanMessage = (message) =>
     message
       .replace("@linkedpush", "")
+      .replace("@aoc", "")
       .split("")
       .filter((char) => !invalidSymbols.includes(char))
       .join("");
 
   const messageList = [];
+  let aocMessage;
   // iterate through req.body.commits in reversse
   for (let i = req.body.commits.length - 1; i >= 0; i--) {
     if (req.body.commits[i].message.includes("@linkedpush")) {
       messageList.push(cleanMessage(req.body.commits[i].message));
+    }
+    if (req.body.commits[i].message.includes("@aoc") && !aocMessage) {
+      aocMessage = cleanMessage(req.body.commits[i].message);
     }
   }
   const finalMessage = `${messageList.join(
     "\n\n"
   )}\n\n${autoAcredit}\n${promo}`;
 
+  const assetId =
+    aocMessage &&
+    (await uploadAsset(
+      token,
+      myLinkedInId,
+      aocMessage,
+      req.body.repository.full_name
+    ));
+
   let postingPost = null;
   try {
-    postingPost = await axios({
-      method: "post",
-      url: `https://api.linkedin.com/rest/posts`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "X-Restli-Protocol-Version": "2.0.0",
-        "LinkedIn-Version": "202206",
-        "Content-Type": "application/json",
-      },
-      data: {
-        author: `urn:li:person:${myLinkedInId}`,
-        commentary: finalMessage,
-        visibility,
-        distribution: {
-          feedDistribution: "MAIN_FEED",
-          targetEntities: [],
-          thirdPartyDistributionChannels: [],
-        },
-        lifecycleState: "PUBLISHED",
-      },
-    });
+    postingPost = await createPost(
+      myLinkedInId,
+      token,
+      finalMessage,
+      assetId,
+      visibility
+    );
 
     console.log("Successfully posted to LinkedIn.");
     res.status(200).send("success");
