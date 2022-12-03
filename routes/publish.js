@@ -53,6 +53,7 @@ router.post("/:id", verifyUser, async (req, res) => {
 
   // remove the linkedpush tag
   const cleanMessage = (message, aoc = false) => {
+    let message = message;
     if (!aoc) {
       message = message.replace("@:", "");
     }
@@ -87,7 +88,7 @@ router.post("/:id", verifyUser, async (req, res) => {
       aocMessage,
       req.body.repository.full_name
     ));
-
+  console.log("assetId: ", assetId);
   let postingPost = null;
   try {
     postingPost = await createPost(
