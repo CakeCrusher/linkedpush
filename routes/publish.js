@@ -52,14 +52,17 @@ router.post("/:id", verifyUser, async (req, res) => {
   const invalidSymbols = ["(", ")", "@"];
 
   // remove the linkedpush tag
-  const cleanMessage = (message) =>
-    message
+  const cleanMessage = (message, aoc = false) => {
+    if (!aoc) {
+      message = message.replace("@:", "");
+    }
+    message = message
       .replace("@linkedpush", "")
       .replace("@aoc", "")
-      .replace("@:", "")
       .split("")
       .filter((char) => !invalidSymbols.includes(char))
       .join("");
+  };
 
   const messageList = [];
   let aocMessage;
@@ -69,7 +72,7 @@ router.post("/:id", verifyUser, async (req, res) => {
       messageList.push(cleanMessage(req.body.commits[i].message));
     }
     if (req.body.commits[i].message.includes("@aoc") && !aocMessage) {
-      aocMessage = cleanMessage(req.body.commits[i].message);
+      aocMessage = cleanMessage(req.body.commits[i].message, true);
     }
   }
   const finalMessage = `${messageList.join(
