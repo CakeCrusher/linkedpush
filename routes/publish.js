@@ -53,16 +53,22 @@ router.post("/:id", verifyUser, async (req, res) => {
 
   // remove the linkedpush tag
   const cleanMessage = (message, aoc = false) => {
-    if (!aoc) {
-      message = message.replace("@:", "");
+    if (aoc) {
+      return message
+        .replace("@linkedpush", "")
+        .replace("@aoc", "")
+        .split("")
+        .filter((char) => !invalidSymbols.includes(char))
+        .join("");
+    } else {
+      return message
+        .replace("@linkedpush", "")
+        .replace("@aoc", "")
+        .replace("@:", "")
+        .split("")
+        .filter((char) => !invalidSymbols.includes(char))
+        .join("");
     }
-    message = message
-      .replace("@linkedpush", "")
-      .replace("@aoc", "")
-      .split("")
-      .filter((char) => !invalidSymbols.includes(char))
-      .join("");
-    return message;
   };
 
   const messageList = [];
