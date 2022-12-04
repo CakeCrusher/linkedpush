@@ -49,7 +49,7 @@ router.post("/:id", verifyUser, async (req, res) => {
   const promo = `⚙️ by https://linkedpush.herokuapp.com/`;
 
   // these symbols are not allowed and will cause the post to fail
-  const invalidSymbols = ["(", ")", "@"];
+  const invalidSymbols = ["(", ")"];
 
   // remove the linkedpush tag
   const cleanMessage = (message, aoc = false) => {
