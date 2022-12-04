@@ -4,7 +4,7 @@ Converts your GitHub pushes to LinkedIn posts, to maximize exposure.
 
 https://user-images.githubusercontent.com/37946988/200144242-604c271f-534e-4859-ba87-286d290bdf54.mp4
 
-![firstpost](https://user-images.githubusercontent.com/37946988/198857559-c0541459-9729-4da4-ba6c-a0ec81cf7878.png)
+![aoc-post](https://user-images.githubusercontent.com/37946988/205468927-33796a42-a7ad-4979-b6fa-129e40ef7c14.png)
 
 ## How it works
 
